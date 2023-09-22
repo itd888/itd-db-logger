@@ -9,7 +9,7 @@ class DBLog
     private static $sql;
     private static $logLevel;
 
-    private static $table = 'db_log';
+    private static $table = '_db_log';
 
     private static function init()
     {
