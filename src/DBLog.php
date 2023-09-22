@@ -9,10 +9,11 @@ class DBLog
     private static $sql;
     private static $logLevel;
 
+    private static $table = 'db_log';
+
     private static function init()
     {
         self::$logLevel = iEnv("DL.LOG_LEVEL");
-        print "connect db:" . iEnv("DL.DB_HOST") . ' ' . iEnv("DL.DB_USER") . ' ' . iEnv("DL.DB_NAME") . PHP_EOL;
         if (empty(self::$link)) {
             self::$link = new \mysqli(iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306));
             if (!self::$link) {
@@ -110,7 +111,7 @@ class DBLog
             $content .= ' ：' . addslashes($debugInfo[0]['file']) . ' (' . $debugInfo[0]['line'] . ')';
         }
         $arr = ['project' => self::getProjectName(), 'log_type' => $log_type, 'title' => $title, 'content' => $content, 'record_date' => date('Y-m-d H:i:s')];
-        self::insert('_debug_log', $arr);
+        self::insert(self::$table, $arr);
     }
 
     private static function getProjectName()
