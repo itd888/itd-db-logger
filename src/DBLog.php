@@ -130,8 +130,8 @@ class DBLog
                 $values .= "'" . str_replace("'", "''", $v) . "',";
         }
         $action = $replace ? 'REPLACE' : 'INSERT';
-        $sql = $action . " INTO " . $table . " (" . trim($fields, ',') . ") VALUES (" . trim($values, ',') . ")";
-        return self::query($sql);
+        self::$sql = $action . " INTO " . $table . " (" . trim($fields, ',') . ") VALUES (" . trim($values, ',') . ")";
+        return self::query(self::$sql);
     }
 
     /**
