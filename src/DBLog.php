@@ -12,8 +12,13 @@ class DBLog
     private static function init()
     {
         self::$logLevel = iEnv("DL.LOG_LEVEL");
-        self::$link = new \mysqli(iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306));
-        self::$link->query("SET NAMES UTF8");
+        if (empty(self::$link)) {
+            self::$link = new \mysqli(iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306));
+            if (!self::$link) {
+                print "connect db error:" . iEnv("DL.DB_HOST") . ' ' . iEnv("DL.DB_USER") . ' ' . iEnv("DL.DB_NAME") . PHP_EOL;
+            }
+            self::$link->query("SET NAMES UTF8");
+        }
     }
 
     /**
@@ -85,6 +90,9 @@ class DBLog
      */
     private static function base_log($log_type, $content, $title, $trace)
     {
+        if (empty(self::$link)) {
+            self::init();
+        }
         if (is_array($content)) {
             if (isset($content[0])) {
                 $str = '';
