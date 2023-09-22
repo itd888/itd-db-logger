@@ -12,6 +12,7 @@ class DBLog
     private static function init()
     {
         self::$logLevel = iEnv("DL.LOG_LEVEL");
+        print "connect db:" . iEnv("DL.DB_HOST") . ' ' . iEnv("DL.DB_USER") . ' ' . iEnv("DL.DB_NAME") . PHP_EOL;
         if (empty(self::$link)) {
             self::$link = new \mysqli(iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306));
             if (!self::$link) {
