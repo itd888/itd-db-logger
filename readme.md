@@ -9,6 +9,7 @@ DB_PORT = 3306
 LOG_LEVEL = 1 #1.debug 2.info  3.warning  4.error  5.fatal
 
 手动创建上述的DB_NAME相同名字的数据库(db_logger),再创建以下表
+
 CREATE TABLE `_db_log` (
 `id` int(11) NOT NULL,
 `project` varchar(20) NOT NULL,
@@ -17,3 +18,7 @@ CREATE TABLE `_db_log` (
 `content` text NOT NULL,
 `record_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='数据库日志表';
+ALTER TABLE `_db_log` ADD PRIMARY KEY (`id`);
+ALTER TABLE `_db_log` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT; COMMIT;
+
+
