@@ -16,7 +16,7 @@ class MMLog
      * @param int $interval 按间隔记录(如果是百分比 1-100)
      * @param bool $isPercent
      */
-    static public function createMoment(string $momentName, int $interval, $isPercent = false)
+    static public function createMoment(string $momentName, int $interval, bool $isPercent = false)
     {
         if (!self::$instances[$momentName]) {
             self::$instances[$momentName] = new OneMoment($momentName, $interval, $isPercent);
@@ -29,10 +29,9 @@ class MMLog
     static public function addMomentContent($momentName, $content, $title = '')
     {
         $moment = self::$instances[$momentName];
-        if (!$moment) {
-            die('pls createMoment first');
+        if ($moment) {
+            $moment->addContent($content, $title);
         }
-        $moment->addContent($content, $title);
     }
 
 
