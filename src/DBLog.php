@@ -14,11 +14,9 @@ class DBLog
     private static function init()
     {
         self::$logLevel = iEnv("DL.LOG_LEVEL");
+
         if (empty(self::$link)) {
-            self::$link = new \mysqli(iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306));
-            if (!self::$link) {
-                print "connect db error:" . iEnv("DL.DB_HOST") . ' ' . iEnv("DL.DB_USER") . ' ' . iEnv("DL.DB_NAME") . PHP_EOL;
-            }
+            self::$link = new NDBI([iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306)]);
             self::$link->query("SET NAMES UTF8");
         }
     }
@@ -111,7 +109,7 @@ class DBLog
             $content .= ' ：' . addslashes($debugInfo[0]['file']) . ' (' . $debugInfo[0]['line'] . ')';
         }
         $arr = ['project' => self::getProjectName(), 'log_type' => $log_type, 'title' => $title, 'content' => $content, 'record_date' => date('Y-m-d H:i:s')];
-        self::insert(self::$table, $arr);
+        self::$link->insert(self::$table, $arr);
     }
 
     private static function getProjectName()
@@ -127,48 +125,4 @@ class DBLog
             }
         }
     }
-
-    // 插入
-    private static function insert($table, $arr, $replace = false)
-    {
-        $fields = $values = '';
-        foreach ($arr as $k => $v) {
-            $fields .= "`" . $k . "`,";
-            if ('NOW()' == $v) {
-                $values .= $v . ",";
-            } else
-                $values .= "'" . str_replace("'", "''", $v) . "',";
-        }
-        $action = $replace ? 'REPLACE' : 'INSERT';
-        self::$sql = $action . " INTO " . $table . " (" . trim($fields, ',') . ") VALUES (" . trim($values, ',') . ")";
-        return self::query(self::$sql);
-    }
-
-    /**
-     * 执行查询
-     * @return \mysqli_result | bool | int
-     */
-    public static function query($sql)
-    {
-        $result = self::$link->query($sql) or self::sql_error();
-        if (self::_start_with($sql, 'DELETE') || self::_start_with($sql, 'UPDATE')) {
-            return self::$link->affected_rows;
-        } else if (self::_start_with($sql, 'INSERT')) {
-            return self::$link->insert_id;
-        } else {
-            return $result;
-        }
-    }
-
-    private static function sql_error()
-    {
-        print  mysqli_error(self::$link) . ':' . self::$sql . "<br>";
-    }
-
-    private static function _start_with($str, $needle): bool
-    {
-        return stripos($str, $needle) === 0;
-    }
-
-
 }

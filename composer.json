@@ -21,8 +21,8 @@
     },
     "require": {
         "php": ">=7.3.0",
-		"itd/itd-env": "dev-main"
-       
+		"itd/itd-env": "dev-main",
+        "itd/itd-dbi": "dev-main"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
