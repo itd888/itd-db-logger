@@ -9,6 +9,8 @@ class MMLog
 {
     /** @var OneMoment[] */
     static private $instances = [];
+    /** @var OneMoment */
+    static private $lastInstance;
 
     /**
      * 创建一个瞬间
@@ -21,7 +23,15 @@ class MMLog
         if (!self::$instances[$momentName]) {
             self::$instances[$momentName] = new OneMoment($momentName, $interval, $isPercent);
         }
+        self::$lastInstance = self::$instances[$momentName];
 
+    }
+
+    static public function addContent($content, $title = '')
+    {
+        if (self::$lastInstance) {
+            self::$lastInstance->addContent($content, $title);
+        }
     }
 
 
