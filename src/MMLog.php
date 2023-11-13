@@ -46,7 +46,7 @@ class MMLog
 
 
     /** 判断记录间隔,判断是否需要记录 */
-    static public function flushMoment($momentName = '')
+    static public function flush($momentName = '')
     {
         if ($momentName) {
             $moment = self::$instances[$momentName];
