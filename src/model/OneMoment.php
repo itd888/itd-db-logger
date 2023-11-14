@@ -38,7 +38,7 @@ class OneMoment
             self::$db->insert('_moment_interval', ['project' => $projectName, 'moment_name' => $this->name, 'update_time' => $now]);
         } elseif ($this->isPercent) {
             if (mt_rand(1, 100) <= $this->interval) {
-                self::$db->insert('moment_log', json_encode($this->contentArr, JSON_UNESCAPED_UNICODE));
+                self::$db->insert('_moment_log', json_encode($this->contentArr, JSON_UNESCAPED_UNICODE));
             }
         } else {
             $query = "moment_name='" . $this->name . "' AND project='" . $projectName . "'";
