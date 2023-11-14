@@ -25,16 +25,24 @@ class OneMoment
     public function addContent($content, $title = '')
     {
         $title = $title ? $title . ' => ' : '';
-        $this->contentArr[] = $title . $content . "\n\n";
+        $this->contentArr[] = $title . $content;
+    }
 
+    public function getContent(): string
+    {
+        $str = '';
+        foreach ($this->contentArr as $content) {
+            $str .= $content . "\n\n";
+        }
+        return $str;
     }
 
     public function flush()
     {
         $projectName = self::getProjectName();
         $now = date("Y-m-d H:i:s");
-        $content = json_encode($this->contentArr, JSON_UNESCAPED_UNICODE);
-        $data= [
+        $content = $this->getContent();
+        $data = [
             'project' => $projectName,
             'moment_name' => $this->name,
             'content' => $content,
