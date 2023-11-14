@@ -31,7 +31,7 @@ class MMLog
      * @param string|array|object $content
      * @param string $title
      */
-    static public function addContent($content, $title = '')
+    static public function addContent($content, string $title = '')
     {
         if (self::$lastInstance) {
             self::$lastInstance->addContent($content, $title);
