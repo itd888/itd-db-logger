@@ -57,7 +57,7 @@ class OneMoment
             }
             echo $dif = time() - strtotime($updateTime);
             echo "$dif >= $this->interval<br>";
-            if (!$updateTime || time() - strtotime($updateTime) >= $this->interval) {
+            if (!$updateTime || $dif >= $this->interval) {
                 echo "need insert<br>";
                 self::$db->insert('moment_log', $data);
                 echo "insert moment_log ".json_encode($data)."<br>";
