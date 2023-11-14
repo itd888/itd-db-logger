@@ -33,12 +33,13 @@ class OneMoment
     {
         $projectName = self::getProjectName();
         $now = date("Y-m-d H:i:s");
+        $content = json_encode($this->contentArr, JSON_UNESCAPED_UNICODE);
 
         if ($this->interval <= 0) {
-            self::$db->insert('_moment_interval', ['project' => $projectName, 'moment_name' => $this->name, 'update_time' => $now]);
+            self::$db->insert('_moment_log', $content);
         } elseif ($this->isPercent) {
             if (mt_rand(1, 100) <= $this->interval) {
-                self::$db->insert('_moment_log', json_encode($this->contentArr, JSON_UNESCAPED_UNICODE));
+                self::$db->insert('_moment_log', $content);
             }
         } else {
             $query = "moment_name='" . $this->name . "' AND project='" . $projectName . "'";
@@ -48,7 +49,7 @@ class OneMoment
                 self::$db->insert('_moment_interval', ['project' => $projectName, 'moment_name' => $this->name, 'update_time' => $now]);
             }
             if (!$updateTime || time() - strtotime($updateTime) >= $this->interval) {
-                self::$db->insert('moment_log', json_encode($this->contentArr, JSON_UNESCAPED_UNICODE));
+                self::$db->insert('moment_log', $content);
                 if ($updateTime) {
                     self::$db->update('_moment_interval', ['update_time' => $now], $query);
                 }
