@@ -39,7 +39,10 @@ class MMLog
     }
 
 
-    /** 往瞬间里面增加内容 */
+    /** 往瞬间里面增加内容
+     * @param string|array|object $content
+     *
+     */
     static public function addMomentContent($momentName, $content, $title = '')
     {
         $moment = self::$instances[$momentName];
