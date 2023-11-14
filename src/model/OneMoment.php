@@ -50,18 +50,12 @@ class OneMoment
         } else {
             $query = "moment_name='" . $this->name . "' AND project='" . $projectName . "'";
             $updateTime = self::$db->out_field('_moment_interval', 'update_time', $query);
-            echo "updateTime:$updateTime<br>";
-
             if (!$updateTime) {
                 self::$db->insert('_moment_interval', ['project' => $projectName, 'moment_name' => $this->name, 'update_time' => $now]);
             }
-
-            echo "now=$now<br>";
-            echo $dif = time() - strtotime($updateTime);
-            echo "$dif >= $this->interval<br>";
+            $dif = time() - strtotime($updateTime);
             if (!$updateTime || $dif >= $this->interval) {
-                echo "need insert<br>";
-                self::$db->insert('moment_log', $data);
+                self::$db->insert('_moment_log', $data);
                 if ($updateTime) {
                     self::$db->update('_moment_interval', ['update_time' => $now], $query);
                 }
