@@ -25,6 +25,11 @@ class OneMoment
     public function addContent($content, $title = '')
     {
         $title = $title ? $title . ' => ' : '';
+        if (is_object($content)) {
+            $content = var_export($content, true);
+        } elseif (is_array($content)) {
+            $content = json_encode($content, JSON_UNESCAPED_UNICODE);
+        }
         $this->contentArr[] = $title . $content;
     }
 
