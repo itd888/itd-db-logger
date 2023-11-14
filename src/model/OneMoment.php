@@ -55,12 +55,13 @@ class OneMoment
             if (!$updateTime) {
                 self::$db->insert('_moment_interval', ['project' => $projectName, 'moment_name' => $this->name, 'update_time' => $now]);
             }
+
+            echo "now=$now<br>";
             echo $dif = time() - strtotime($updateTime);
             echo "$dif >= $this->interval<br>";
             if (!$updateTime || $dif >= $this->interval) {
                 echo "need insert<br>";
                 self::$db->insert('moment_log', $data);
-                echo "insert moment_log ".json_encode($data)."<br>";
                 if ($updateTime) {
                     self::$db->update('_moment_interval', ['update_time' => $now], $query);
                 }
