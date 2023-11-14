@@ -17,7 +17,9 @@ class OneMoment
         $this->name = $name;
         $this->interval = $interval;
         $this->isPercent = $isPercent;
-        self::$db = new NDBI([iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306)]);
+        if (!self::$db) {
+            self::$db = new NDBI([iEnv("DL.DB_HOST"), iEnv("DL.DB_USER"), iEnv("DL.DB_PASS"), iEnv("DL.DB_NAME"), iEnv("DL.DB_PORT", 3306)]);
+        }
     }
 
     public function addContent($content, $title = '')
