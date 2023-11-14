@@ -1,5 +1,12 @@
 需要在根目录下.env 配置数据库日志的连接
 
+使用例子:
+MMLog::createMoment('test2', 2);
+MMLog::addContent('content1', 'title');
+MMLog::addContent(['content2' => [1, 2, 3], 'content3' => [3, 4, 5]], 'title');
+MMLog::addContent($oddsTennis, '$oddsTennis');
+MMLog::flush();
+
 [DL]
 DB_HOST = 127.0.0.1
 DB_USER = username

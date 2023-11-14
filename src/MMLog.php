@@ -27,6 +27,10 @@ class MMLog
 
     }
 
+    /** 往最近一个瞬间里面增加内容
+     * @param string|array|object $content
+     * @param string $title
+     */
     static public function addContent($content, $title = '')
     {
         if (self::$lastInstance) {
